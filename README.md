@@ -10,6 +10,83 @@ MediBot is an AI-powered educational medical assistant designed to predict disea
 </br>•	Multi-modal input: text and optional skin images
 </br>•	Symptom severity scoring and disease precaution advice
 </br>•	Prompt engineering for safe, accurate, and structured responses
+### MediBot flowchart
+**Context-Aware**  
+All responses consider previous AI messages via `merged_context`.
+
+**Retrieval-First Approach**  
+FAISS ensures high-confidence disease matches before agent or LLM execution.
+
+**Router-Based Decision**  
+LLM decides the next step dynamically: clarify, follow-up, free-flow, or call agent.
+
+**Agent Workflow**  
+- Only invoked for actionable cases to produce structured diagnosis.  
+- Uses ReAct-style reasoning tools.
+
+**LLM Fallback**  
+Ensures users always get educational guidance if no matches are found.
+
+**Session Memory**  
+Updated session memory with the user query and AI response, not the whole prompt.
+
+**User-Friendly Markdown Output**  
+Structured sections for diseases, severity, descriptions, and precautions.
+
+**Traceable / Debuggable**  
+Optional `trace_event()` logging at each step for monitoring or debugging.
+
+```
+User Query
+   │
+   ▼
+Merge Previous AI Messages → Create merged_context
+   │
+   ▼
+FAISS Retrieval → Are there matching diseases?
+   ├─ Yes
+   │    ├─ Router Decision → Determine action:
+   │    │    • clarify
+   │    │    • llm (free-flow)
+   │    │    • follow_up
+   │    │    • call_agent
+   │    │
+   │    └─ Action Handling:
+   │         ├─ clarify / llm
+   │         │    └─ Generate free-flow educational response
+   │         │         • Markdown output
+   │         │
+   │         ├─ follow_up
+   │         │    └─ call_agents_for_followup_query()
+   │         │     |    • Format free-flow markdown
+   |         |     |
+   |         |     | __LLM fallback if no reponse
+   │         │
+   │         └─ call_agent
+   │              ├─ call_agents_for_new_query()
+   │              │    | • ReAct agent tools:
+   │              │    |    - diagnose_disease
+   │              │    |     - symptom_severity
+   │              │    |    - disease_description
+   │              │    |     - advise_precautions
+   |              |    |
+   |              |    |___LLM fallback if no reponse
+   |              |   
+   |              |
+   │              ├─ Extract final JSON answer from LLM output
+   │              ├─ Update session memory with the user query and AI response
+   │              └─ Generate user-friendly markdown:
+   │                    🔍 Possible Diseases
+   │                    ⚠️ Severity Assessment
+   │                    📖 Disease Descriptions
+   │                    🛡️ Recommended Precautions
+   │
+   └─ No
+        │
+        ▼
+    LLM Fallback → Generate educational response:
+
+```
 ### System Architecture
 <img width="1291" height="776" alt="MediBot_System_Architecture" src="https://github.com/user-attachments/assets/55b3ded3-5dfe-4b5b-b7e4-9c0f6567851a" />
 
