@@ -20,7 +20,7 @@ MediBot is an AI-powered educational medical assistant designed to predict disea
 5. Multi-Modal Fusion → combines text embeddings (SentenceTransformer) with image embeddings (ResNet50).
 6. Output → structured JSON + Markdown response to the user.
 
-### Agent Interaction
+### Agents Interaction
 <img width="1407" height="627" alt="MediBot_Agent_Interaction" src="https://github.com/user-attachments/assets/8b589895-3cb0-47cb-8b31-67d0771a784a" />
 
 ### Installation
