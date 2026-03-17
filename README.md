@@ -10,6 +10,29 @@ MediBot is an AI-powered educational medical assistant designed to predict disea
 </br>•	Multi-modal input: text and optional skin images
 </br>•	Symptom severity scoring and disease precaution advice
 </br>•	Prompt engineering for safe, accurate, and structured responses
+### MediBot Multi-Turn Flow
+**LLM router** determines **when to call agents** based on FAISS retrieval **(RAG)**. This approach helps **reduce LLM hallucination**s and generate more **deterministic responses**, while avoiding unnecessary agent calls that could **increase prompt length**, confuse agents, and potentially lead to hallucinations.
+
+**two distinct agent prompts**:
+* **Full-agent prompt** – calls all relevant agents to gather comprehensive information for a structured, user-facing response.
+* **Follow-up prompt** – handles clarifications or additional queries based on previous conversation context.
+
+This separation ensures agents receive **clear instructions**, which improves the determinism of their responses.
+  * Additionally,AgentType.OPENAI_FUNCTIONS instead of "CHAT_CONVERSATIONAL_REACT_DESCRIPTION" because the latter stores summaries of the full prompt, which can be unnecessary and may cause **loss of important information or hallucinations**.
+This sets **ReAct-based reasoning** to let the AI autonomously select the right agent.
+
+For **memory management,**
+
+To manage token limits,  ConversationSummaryMemory is leveraged, which stores a **summary of past conversations** rather than the full text, keeping token usage manageable while still preserving relevant context.
+
+Implemented **personalized user histories** using ConversationSummaryMemory. Only the **user query** is stored as a human message, and the **agent’s final response** is stored as the AI message. Each user has a **unique memory instance**, keyed by user_id, which:
+  * Keeps memory **concise and focused**, mitigating hallucinations.
+  * Maintains **context consistency** across multi-turn interactions
+  * Tracks **recurrent health issues** for better continuity and personalized follow-up advice.
+  * Ensures multi-turn conversations are **user-specific**, even across multiple sessions if memory is persisted.
+
+This combination of **RAG-based retrieval, ReAct based  multi-agent routing, and personalized memory** allows MediBot to provide **structured, context-aware, and deterministic** medical guidance tailored to each user
+
 ### MediBot flowchart
 **Context-Aware**  
 All responses consider previous AI messages via `merged_context`.
