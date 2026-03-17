@@ -100,6 +100,19 @@ FAISS Retrieval → Are there matching diseases?
 ### Agents Interaction
 <img width="1407" height="627" alt="MediBot_Agent_Interaction" src="https://github.com/user-attachments/assets/8b589895-3cb0-47cb-8b31-67d0771a784a" />
 
+
+
+| Feature                       | Notes                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Multi-turn context            | Uses `merged_context` to maintain continuity across queries                                                   |
+| Retrieval-augmented reasoning | FAISS ensures high-confidence matches before calling the LLM                                                  |
+| Router-based action selection | Dynamically selects the best next step: clarify, follow-up, free-flow, or agent call                          |
+| Structured agent workflow     | Only calls ReAct agent tools when appropriate                                                                 |
+| Robust fallback               | Always provides an educational response even when there are no retrieval hits                                 |
+| Session memory                | Updated with the user query and AI response; does not store the entire prompt                                 |
+| Markdown output               | User-friendly and visually structured for readability                                                         |
+| Personalized user history     | Stores per-user memory of past queries and agent responses to improve contextual understanding and follow-ups |
+
 ### Installation
 1. Clone the repository.
 2. Install dependencies:
