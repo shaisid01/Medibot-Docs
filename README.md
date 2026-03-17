@@ -11,6 +11,7 @@ MediBot is an AI-powered educational medical assistant designed to predict disea
 </br>•	Symptom severity scoring and disease precaution advice
 </br>•	Prompt engineering for safe, accurate, and structured responses
 ### System Architecture
+<img width="1291" height="776" alt="MediBot_System_Architecture" src="https://github.com/user-attachments/assets/55b3ded3-5dfe-4b5b-b7e4-9c0f6567851a" />
 
 1. User input (text + optional image) → FAISS vector search for symptom-disease matches.
 2. LLM Router → determines action: call agent, follow-up, clarify, or LLM fallback.
@@ -18,7 +19,10 @@ MediBot is an AI-powered educational medical assistant designed to predict disea
 4. Session Memory → maintains multi-turn context and personalized user history.
 5. Multi-Modal Fusion → combines text embeddings (SentenceTransformer) with image embeddings (ResNet50).
 6. Output → structured JSON + Markdown response to the user.
-   
+
+### Agent Interaction
+<img width="1407" height="627" alt="MediBot_Agent_Interaction" src="https://github.com/user-attachments/assets/8b589895-3cb0-47cb-8b31-67d0771a784a" />
+
 ### Installation
 1. Clone the repository.
 2. Install dependencies:
