@@ -1,4 +1,4 @@
-## MediBot: Multi-Turn Context-Aware Medical Assistant
+## Multi-Turn Context-Aware Medical Assistant
 ### Introduction
 MediBot is an AI-powered educational medical assistant designed to predict diseases, assess symptom severity, provide disease descriptions, and recommend precautions. It leverages multi-turn conversations, persistent personalized memory, RAG (FAISS engine), ReAct-style reasoning, and multi-modal NLP capabilities.
 ### Key Features
